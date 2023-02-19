@@ -8,30 +8,24 @@ defmodule MacrowEx do
 
   ## Examples
 
-      iex> MacrowEx.apply("${hoge}")
+      iex> MacrowEx.apply("${hoge}", [%{src: "hoge", replacer: fn _context -> "ほげ" end}])
       "ほげ"
 
-      iex> MacrowEx.apply("hoge${hoge}hoge")
+      iex> MacrowEx.apply("hoge${hoge}hoge", [%{src: "hoge", replacer: fn _context -> "ほげ" end}])
       "hogeほげhoge"
 
-      iex> MacrowEx.apply("hoge${hoge}hoge${hoge}")
+      iex> MacrowEx.apply("hoge${hoge}hoge${hoge}", [%{src: "hoge", replacer: fn _context -> "ほげ" end}])
       "hogeほげhogeほげ"
 
+      iex> MacrowEx.apply("${hoge}", [])
+      "${hoge}"
+
   """
-  def apply(str) when is_binary(str) do
-    rules()
+  def apply(str, rules) when is_binary(str) do
+    rules
     |> Enum.reduce(str, fn %{src: src, replacer: replacer}, str ->
       String.replace(str, replace_string(src), replacer)
     end)
-  end
-
-  def rules do
-    [
-      %{
-        src: "hoge",
-        replacer: fn _context -> "ほげ" end
-      }
-    ]
   end
 
   defp macro_prefix do
