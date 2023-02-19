@@ -45,7 +45,7 @@ Then `apply/1` `apply/2` function generates in your module.
 MyMacrowEx.apply("${hoge}")
   "ほげ"
 
-MyMacrowEx.apply("${hoge} length is ${len}")
+MyMacrowEx.apply("${hoge} length is ${len}", [1,2,3])
   "ほげ length is 3"
 ```
 
