@@ -51,7 +51,7 @@ MyMacrowEx.apply("${hoge} length is ${len}", [1,2,3])
 
 ## Format
 
-When you do not want to format DSL provided by MacrowEx, try to write as follows.
+When you do not want to format DSL provided by MacrowEx, try to write in your `.formatter.exs` as follows.
 
 ```elixir
 [
