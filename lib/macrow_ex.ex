@@ -4,7 +4,34 @@ defmodule MacrowEx do
   end
 
   @moduledoc """
-  Documentation for `MacrowEx`.
+  `MacrowEx` provides DSL for defining rules of text replacing.
+
+  ## Examples
+  Define your module and write `use MacrowEx`.
+
+  MacrowEx provides `rules/2` DSL to define replacement rules.
+
+  The second argument is function to replace and must return string.
+
+    defmodule MyMacrowEx do
+      use MacrowEx
+
+      rules "hoge", fn ->
+        "ほげ"
+      end
+
+      rules "len", fn array ->
+        length(array) |> Integer.to_string()
+      end
+    end
+
+  Then `apply/1` `apply/2` function generates in your module.
+
+    MyMacrowEx.apply("${hoge}")
+    "ほげ"
+
+    MyMacrowEx.apply("${hoge} length is ${len}")
+    "ほげ length is 3"
   """
 
   defmacro __using__(_opts) do

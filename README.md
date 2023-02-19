@@ -1,6 +1,6 @@
 # MacrowEx
 
-MacrowEx provide DSL for define rules of text replacing.
+`MacrowEx` provides DSL for defining rules of text replacing.
 
 It's inspired by https://github.com/syguer/macrow Ruby gem.
 
@@ -19,4 +19,42 @@ end
 
 ## How to use
 
-...
+Define your module and write `use MacrowEx`.
+
+MacrowEx provides `rules/2` DSL to define replacement rules.
+
+The second argument is function to replace and must return string.
+
+```elixir
+defmodule MyMacrowEx do
+  use MacrowEx
+
+  rules "hoge", fn ->
+    "ほげ"
+  end
+
+  rules "len", fn array ->
+    length(array) |> Integer.to_string()
+  end
+end
+```
+
+Then `apply/1` `apply/2` function generates in your module.
+
+```elixir
+MyMacrowEx.apply("${hoge}")
+  "ほげ"
+
+MyMacrowEx.apply("${hoge} length is ${len}")
+  "ほげ length is 3"
+```
+
+## Format
+
+When you do not want to format DSL provided by MacrowEx, try to write as follows.
+
+```elixir
+[
+  import_deps: [:macrow_ex]
+]
+```
