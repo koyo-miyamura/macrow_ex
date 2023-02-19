@@ -1,53 +1,46 @@
 defmodule MacrowEx do
+  defmodule RulesFunctionShouldReturnStringError do
+    defexception message: "rules function should return string"
+  end
+
   @moduledoc """
   Documentation for `MacrowEx`.
   """
 
-  @doc """
-  Apply macro. Replacer must return string.
-
-  ## Examples
-
-      iex> MacrowEx.apply("${hoge}", [%{src: "hoge", replacer: fn -> "ほげ" end}])
-      "ほげ"
-
-      iex> MacrowEx.apply("hoge${hoge}hoge", [%{src: "hoge", replacer: fn -> "ほげ" end}])
-      "hogeほげhoge"
-
-      iex> MacrowEx.apply("hoge${hoge}hoge${hoge}", [%{src: "hoge", replacer: fn -> "ほげ" end}])
-      "hogeほげhogeほげ"
-
-      iex> MacrowEx.apply("${hoge}", [])
-      "${hoge}"
-
-      iex> MacrowEx.apply("Array length is ${len}", [%{src: "len", replacer: fn array -> array |> length |> Integer.to_string() end}], [1, 2, 3])
-      "Array length is 3"
-
-  """
-  def apply(str, rules, context \\ nil) when is_binary(str) do
-    rules
-    |> Enum.reduce(str, fn %{src: src, replacer: replacer}, str ->
-      String.replace(str, replace_string(src), replace(replacer, context))
-    end)
+  defmacro __using__(_opts) do
+    quote do
+      import MacrowEx, only: [rules: 2]
+      Module.register_attribute(__MODULE__, :rules, accumulate: true)
+      @before_compile MacrowEx
+    end
   end
 
-  defp macro_prefix do
-    "${"
+  defmacro rules(src, replacer) do
+    replacer_name = String.to_atom(src <> "_replacer")
+
+    quote do
+      case unquote(replacer) |> Function.info() |> Keyword.get(:arity) do
+        0 ->
+          def unquote(replacer_name)(), do: unquote(replacer).()
+          def unquote(replacer_name)(_), do: unquote(replacer).()
+
+        1 ->
+          def unquote(replacer_name)(context), do: unquote(replacer).(context)
+      end
+
+      @rules Macro.escape(%{
+               src: unquote(src),
+               replacer_name: unquote(replacer_name),
+               mod: __MODULE__
+             })
+    end
   end
 
-  defp macro_suffix do
-    "}"
-  end
+  defmacro __before_compile__(env) do
+    rules = Module.get_attribute(env.module, :rules)
 
-  defp replace_string(src) do
-    macro_prefix() <> src <> macro_suffix()
-  end
-
-  defp replace(replacer, nil) do
-    replacer.()
-  end
-
-  defp replace(replacer, context) do
-    replacer.(context)
+    quote do
+      def apply(str, context \\ nil), do: MacrowEx.Helper.do_apply(str, unquote(rules), context)
+    end
   end
 end
