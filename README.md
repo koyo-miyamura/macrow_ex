@@ -1,6 +1,7 @@
 # MacrowEx
 
 MacrowEx provide DSL for define rules of text replacing.
+
 It's inspired by https://github.com/syguer/macrow Ruby gem.
 
 ## Installation
