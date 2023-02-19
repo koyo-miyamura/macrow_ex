@@ -1,6 +1,7 @@
 # MacrowEx
 
-**TODO: Add description**
+MacrowEx provide DSL for define rules of text replacing.
+It's inspired by https://github.com/syguer/macrow Ruby gem.
 
 ## Installation
 
@@ -15,7 +16,6 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/macrow_ex>.
+## How to use
 
+...
