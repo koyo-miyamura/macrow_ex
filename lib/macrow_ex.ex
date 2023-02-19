@@ -13,25 +13,25 @@ defmodule MacrowEx do
 
   The second argument is function to replace and must return string.
 
-    defmodule MyMacrowEx do
-      use MacrowEx
+      defmodule MyMacrowEx do
+        use MacrowEx
 
-      rules "hoge", fn ->
-        "ほげ"
-      end
+        rules "hoge", fn ->
+          "ほげ"
+        end
 
-      rules "len", fn array ->
-        length(array) |> Integer.to_string()
+        rules "len", fn array ->
+          length(array) |> Integer.to_string()
+        end
       end
-    end
 
   Then `apply/1` `apply/2` function generates in your module.
 
-    MyMacrowEx.apply("${hoge}")
-    "ほげ"
+      MyMacrowEx.apply("${hoge}")
+      "ほげ"
 
-    MyMacrowEx.apply("${hoge} length is ${len}")
-    "ほげ length is 3"
+      MyMacrowEx.apply("${hoge} length is ${len}")
+      "ほげ length is 3"
   """
 
   defmacro __using__(_opts) do
