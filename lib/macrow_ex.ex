@@ -1,6 +1,6 @@
 defmodule MacrowEx do
-  defmodule RulesFunctionShouldReturnStringError do
-    defexception message: "rules function should return string"
+  defmodule RulesFunctionMustReturnStringError do
+    defexception message: "rules function must return string"
   end
 
   @moduledoc """

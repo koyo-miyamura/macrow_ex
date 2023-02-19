@@ -33,7 +33,7 @@ defmodule MacrowExTest do
     end
 
     test "raise if rules function does not return string" do
-      assert_raise MacrowEx.RulesFunctionShouldReturnStringError, fn ->
+      assert_raise MacrowEx.RulesFunctionMustReturnStringError, fn ->
         MyMacrowEx.apply("${len_return_integer}", [])
       end
     end

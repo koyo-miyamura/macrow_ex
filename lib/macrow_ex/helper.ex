@@ -36,6 +36,6 @@ defmodule MacrowEx.Helper do
   end
 
   defp check_if_string(_result) do
-    raise MacrowEx.RulesFunctionShouldReturnStringError
+    raise MacrowEx.RulesFunctionMustReturnStringError
   end
 end
