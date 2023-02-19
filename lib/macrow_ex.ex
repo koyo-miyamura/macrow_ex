@@ -4,7 +4,7 @@ defmodule MacrowEx do
   """
 
   @doc """
-  apply macro.
+  Apply macro. Replacer must return string.
 
   ## Examples
 
@@ -20,11 +20,14 @@ defmodule MacrowEx do
       iex> MacrowEx.apply("${hoge}", [])
       "${hoge}"
 
+      iex> MacrowEx.apply("Array length is ${len}", [%{src: "len", replacer: fn array -> array |> length |> Integer.to_string() end}], [1, 2, 3])
+      "Array length is 3"
+
   """
-  def apply(str, rules) when is_binary(str) do
+  def apply(str, rules, context \\ nil) when is_binary(str) do
     rules
     |> Enum.reduce(str, fn %{src: src, replacer: replacer}, str ->
-      String.replace(str, replace_string(src), replacer)
+      String.replace(str, replace_string(src), replacer.(context))
     end)
   end
 
