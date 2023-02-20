@@ -43,10 +43,10 @@ Then `apply/1` `apply/2` function generates in your module.
 
 ```elixir
 MyMacrowEx.apply("${hoge}")
-  "ほげ"
+"ほげ"
 
 MyMacrowEx.apply("${hoge} length is ${len}", [1,2,3])
-  "ほげ length is 3"
+"ほげ length is 3"
 ```
 
 ## Format
