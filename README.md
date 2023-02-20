@@ -49,7 +49,7 @@ MyMacrowEx.apply("${hoge} length is ${len}", [1,2,3])
 "ほげ length is 3"
 ```
 
-You can customize default prefix `"${"` and suffix `"}"` as follows.
+You can customize default prefix `${` and suffix `}` as follows.
 
 ```elixir
 defmodule MyMacrowEx do
