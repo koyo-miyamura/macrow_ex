@@ -32,12 +32,30 @@ defmodule MacrowEx do
 
       MyMacrowEx.apply("${hoge} length is ${len}")
       "ほげ length is 3"
+
+  You can customize default prefix `${` and suffix `}` as follows.
+
+      defmodule MyMacrowEx do
+        use MacrowEx
+
+        macro_prefix "{{"
+        macro_suffix "}}"
+
+        rules "hoge", fn ->
+          "ほげ"
+        end
+      end
+
+      MyMacrowEx.apply("{{hoge}}")
+      "ほげ"
   """
 
   defmacro __using__(_opts) do
     quote do
-      import MacrowEx, only: [rules: 2]
+      import MacrowEx, only: [rules: 2, macro_prefix: 1, macro_suffix: 1]
       Module.register_attribute(__MODULE__, :rules, accumulate: true)
+      Module.register_attribute(__MODULE__, :macro_prefix, [])
+      Module.register_attribute(__MODULE__, :macro_suffix, [])
       @before_compile MacrowEx
     end
   end
@@ -63,11 +81,33 @@ defmodule MacrowEx do
     end
   end
 
+  defmacro macro_prefix(prefix) do
+    quote do
+      @macro_prefix unquote(prefix)
+    end
+  end
+
+  defmacro macro_suffix(suffix) do
+    quote do
+      @macro_suffix unquote(suffix)
+    end
+  end
+
   defmacro __before_compile__(env) do
     rules = Module.get_attribute(env.module, :rules)
+    macro_prefix = Module.get_attribute(env.module, :macro_prefix, "${")
+    macro_suffix = Module.get_attribute(env.module, :macro_suffix, "}")
 
     quote do
-      def apply(str, context \\ nil), do: MacrowEx.Helper.do_apply(str, unquote(rules), context)
+      def apply(str, context \\ nil),
+        do:
+          MacrowEx.Helper.do_apply(
+            str,
+            unquote(rules),
+            unquote(macro_prefix),
+            unquote(macro_suffix),
+            context
+          )
     end
   end
 end

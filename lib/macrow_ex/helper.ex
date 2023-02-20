@@ -2,23 +2,13 @@ defmodule MacrowEx.Helper do
   @doc """
   MacrowEx helper functions.
   """
-  def do_apply(str, rules, context \\ nil) do
+  def do_apply(str, rules, macro_prefix, macro_suffix, context \\ nil) do
     rules
     |> Enum.reduce(str, fn %{src: src, replacer_name: replacer_name, mod: mod}, str ->
-      String.replace(str, replace_string(src), fn _ -> replace(mod, replacer_name, context) end)
+      String.replace(str, macro_prefix <> src <> macro_suffix, fn _ ->
+        replace(mod, replacer_name, context)
+      end)
     end)
-  end
-
-  def macro_prefix do
-    "${"
-  end
-
-  def macro_suffix do
-    "}"
-  end
-
-  def replace_string(src) do
-    macro_prefix() <> src <> macro_suffix()
   end
 
   defp replace(mod, replacer_name, nil) do
