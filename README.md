@@ -49,6 +49,24 @@ MyMacrowEx.apply("${hoge} length is ${len}", [1,2,3])
 "ほげ length is 3"
 ```
 
+You can customize default prefix `"${"` and suffix `"}"` as follows.
+
+```elixir
+defmodule MyMacrowEx do
+  use MacrowEx
+
+  macro_prefix "{{"
+  macro_suffix "}}"
+
+  rules "hoge", fn ->
+    "ほげ"
+  end
+end
+
+MyMacrowEx.apply("{{hoge}}")
+"ほげ"
+```
+
 ## Format
 
 When you do not want to format DSL provided by MacrowEx, try to write in your `.formatter.exs` as follows.
