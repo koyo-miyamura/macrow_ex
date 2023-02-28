@@ -1,10 +1,13 @@
 defmodule MacrowEx.MixProject do
   use Mix.Project
 
+  @source_url "https://github.com/koyo-miyamura/macrow_ex"
+  @version "0.1.0"
+
   def project do
     [
       app: :macrow_ex,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       description:
@@ -12,9 +15,13 @@ defmodule MacrowEx.MixProject do
       package: [
         maintainers: ["koyo"],
         licenses: ["MIT"],
-        links: %{"GitHub" => "https://github.com/koyo-miyamura/macrow_ex"}
+        links: %{"GitHub" => @source_url}
       ],
-      source_url: "https://github.com/koyo-miyamura/macrow_ex",
+      source_url: @source_url,
+      docs: [
+        source_ref: @version,
+        source_url: @source_url
+      ],
       deps: deps()
     ]
   end
