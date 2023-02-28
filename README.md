@@ -1,5 +1,8 @@
 # MacrowEx
 
+[![hex.pm version](https://img.shields.io/hexpm/v/macrow_ex.svg)](https://hex.pm/packages/macrow_ex)
+[![hex.pm](https://img.shields.io/hexpm/l/macrow_ex.svg)](https://github.com/koyo-miyamura/macrow_ex/blob/master/LICENSE)
+
 `MacrowEx` provides DSL for defining rules of text replacing.
 
 It's inspired by https://github.com/syguer/macrow Ruby gem.
