@@ -7,6 +7,14 @@ defmodule MacrowEx.MixProject do
       version: "0.1.0",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
+      description:
+        "MacrowEx provides DSL for defining rules of text replacing. It's inspired by https://github.com/syguer/macrow Ruby gem.",
+      package: [
+        maintainers: ["koyo"],
+        licenses: ["MIT"],
+        links: %{"GitHub" => "https://github.com/koyo-miyamura/macrow_ex"}
+      ],
+      source_url: "https://github.com/koyo-miyamura/macrow_ex",
       deps: deps()
     ]
   end
